@@ -59,7 +59,6 @@ while aa < 10:
 
     f_in.close()
     f_out.close()
-    os.remove("input_data/input_file.tsv.gz")   #the .gz file is deleted after extraction
 
     #---------------------------------------------------------------OPEN INPUT FILE
 
@@ -98,6 +97,10 @@ while aa < 10:
 
 
     #print(df)
+    
+os.remove("input_data/input_file.tsv.gz")   #the .gz file is deleted
+os.remove("input_data/input_file.tsv")   #the .tsv file is deleted
+
 for row in global_block_list:
     print(row)
 
