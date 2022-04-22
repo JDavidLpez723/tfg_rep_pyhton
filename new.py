@@ -26,19 +26,23 @@ global_block_list = []  #the list where all the block data from all the input fi
 
 
 aa = 0
-while aa < 2:
+while aa < 10:
     #---------------------------------------------------------------DOWNLOAD INPUT FILE
-    
-    #we adapt the file id
+    #we adapt the file_id
     if month < 10:
         if day < 10:
             file_id = str(year)+"0"+str(month)+"0"+str(day)   
         else:
             file_id = str(year)+"0"+str(month)+str(day)   
+    else:
         if day < 10:
             file_id = str(year)+str(month)+"0"+str(day)  
         else:
             file_id = str(year)+str(month)+str(day)   
+
+    print()
+    print("File: "+file_id)
+    print()
 
 
     url = url1 + file_id + ext #the url of the input file
@@ -53,8 +57,9 @@ while aa < 2:
         with open('input_data/input_file.tsv', 'wb') as f_out:
             sh.copyfileobj(f_in, f_out)
 
+    f_in.close()
+    f_out.close()
     os.remove("input_data/input_file.tsv.gz")   #the .gz file is deleted after extraction
-
 
     #---------------------------------------------------------------OPEN INPUT FILE
 
@@ -69,13 +74,23 @@ while aa < 2:
         del row[1:7]
         del row[2:28]
         global_block_list.append(row)
-        print(row)
+
 
 
     aa+=1
     day+=1
-    if day > 31:
-        day = 1
+    if month == (1 or 3 or 5 or 7 or 8 or 10 or 12):
+        if day > 31:
+            day = 1
+            month += 1
+    elif month == (2):
+        if day > 28:
+            day = 1
+            month += 1 
+    else:
+        if day > 30:
+            day = 1
+            month += 1
 
 
     #df = pd.read_csv("input_data/input_file.tsv", sep='\t') #the .tsv input file is opened as a dataframe
@@ -83,5 +98,7 @@ while aa < 2:
 
 
     #print(df)
+for row in global_block_list:
+    print(row)
 
 
