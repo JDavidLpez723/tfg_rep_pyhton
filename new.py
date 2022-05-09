@@ -9,6 +9,7 @@ import requests as rq
 import gzip as gz
 import shutil as sh
 import csv
+import matplotlib.pyplot as plt
 
 #----------------------------------------------------------------INPUT DATA DIRECTORY CREATION
 
@@ -17,24 +18,29 @@ input_data_path = os.path.join(actual_path, 'input_data')
 if os.path.exists == False:
     os.mkdir(input_data_path)
 
+#----------------------------------------------------------------OUTPUT DATA FILE CREATION
+
+output_data = open("output_data.txt","w+")
+
+#----------------------------------------------------------------URL CREATION
+
+year = 2015     #year of the input file
+month = 7       #month of the input file
+day = 30        #day of the input file
+url1 = 'https://gz.blockchair.com/ethereum/blocks/blockchair_ethereum_blocks_'   #the first part of the input file url
+ext = '.tsv.gz' #extension of the input file
+
 #----------------------------------------------------------------VARIABLE DECLARATION
 
-year = 2015     #year for the url of the input file
-month = 7       #month for the url of the input file
-day = 30        #day for the url of the input file
-url1 = 'https://gz.blockchair.com/ethereum/blocks/blockchair_ethereum_blocks_'   #the first part of the url of the input file
-ext = '.tsv.gz' #extension of the file
-
-
-
 global_block_list = []  #the list where all the block data from all the input files is going to be stored
-
-
+global_gas_list = []
 
 aa = 0
-while aa < 2:
-    #---------------------------------------------------------------DOWNLOAD INPUT FILE
-    #we adapt the file_id
+while aa < 10:
+
+    #------------------------------------------------------------DOWNLOAD INPUT FILE
+
+    #we adapt the date to fit in the url
     if month < 10:
         if day < 10:
             file_id = str(year)+"0"+str(month)+"0"+str(day)   
@@ -47,17 +53,15 @@ while aa < 2:
             file_id = str(year)+str(month)+str(day)   
 
     print()
-    print("File: "+file_id)
+    print("File date: "+str(day)+"-"+str(month)+"-"+str(year))
     print()
-
 
     url = url1 + file_id + ext #the url of the input file
 
     r = rq.get(url, allow_redirects=True)
-    open('input_data/input_file.tsv.gz', 'wb').write(r.content)    #the .gz file is downloaded
+    open('input_data/input_file.tsv.gz', 'wb').write(r.content)    #the .gz file is downloaded from the url
 
-
-    #--------------------------------------------------------------EXTRACT INPUT FILE
+    #------------------------------------------------------------EXTRACT INPUT FILE
 
     with gz.open('input_data/input_file.tsv.gz', 'rb') as f_in:    #the .gz file is extracted and a .tsv file is obtained
         with open('input_data/input_file.tsv', 'wb') as f_out:
@@ -66,23 +70,24 @@ while aa < 2:
     f_in.close()
     f_out.close()
 
-    #---------------------------------------------------------------OPEN INPUT FILE
+    #------------------------------------------------------------OPEN INPUT FILE AND OBTAIN DATA
 
-    input_file = open("input_data/input_file.tsv")
-    input_file_list = csv.reader(input_file, delimiter="\t")
+    input_file = open("input_data/input_file.tsv")              #open file
+    input_file_list = csv.reader(input_file, delimiter="\t")    #open data from file as a list
 
-    for row in input_file_list:
-        del row
-        break
+    #for row in input_file_list:        #the name of the columns is deleted
+    #    del row
+    #    break
 
-    for row in input_file_list:
+    for row in input_file_list:         #the columns not needed are deleted
         del row[1:7]
         del row[2:28]
-        global_block_list.append(row)
+        global_block_list.append(row[0])
+        global_gas_list.append(row[1])
+        output_data.write(str(row))
+        output_data.write('\n')
 
-
-
-    aa+=1
+    aa+=1                               #the iteration counter and the date of the next file are updated
     day+=1
     if month == (1 or 3 or 5 or 7 or 8 or 10 or 12):
         if day > 31:
@@ -97,17 +102,15 @@ while aa < 2:
             day = 1
             month += 1
 
-
-    #df = pd.read_csv("input_data/input_file.tsv", sep='\t') #the .tsv input file is opened as a dataframe
-    #df = df.drop(df.columns[[1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]],axis = 1) #all columns are dropped except 'id' and 'gas_used'
-
-
-    #print(df)
+#----------------------------------------------------------------DELETING FILES
     
 os.remove("input_data/input_file.tsv.gz")   #the .gz file is deleted
 os.remove("input_data/input_file.tsv")   #the .tsv file is deleted
 
-for row in global_block_list:
-    print(row)
+#----------------------------------------------------------------CREATING THE GRAPH
 
-
+plt.plot(global_block_list,global_gas_list)
+plt.xlabel('block')
+plt.ylabel('gas used')
+plt.title('Gas used per Ethereum block')
+plt.savefig('blocks_gas_used.png')
