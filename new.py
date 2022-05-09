@@ -10,12 +10,18 @@ import gzip as gz
 import shutil as sh
 import csv
 
+#----------------------------------------------------------------INPUT DATA DIRECTORY CREATION
+
+actual_path = os.getcwd()
+input_data_path = os.path.join(actual_path, 'input_data')
+if os.path.exists == False:
+    os.mkdir(input_data_path)
 
 #----------------------------------------------------------------VARIABLE DECLARATION
 
 year = 2015     #year for the url of the input file
-month = 7
-day = 30
+month = 7       #month for the url of the input file
+day = 30        #day for the url of the input file
 url1 = 'https://gz.blockchair.com/ethereum/blocks/blockchair_ethereum_blocks_'   #the first part of the url of the input file
 ext = '.tsv.gz' #extension of the file
 
@@ -26,7 +32,7 @@ global_block_list = []  #the list where all the block data from all the input fi
 
 
 aa = 0
-while aa < 10:
+while aa < 2:
     #---------------------------------------------------------------DOWNLOAD INPUT FILE
     #we adapt the file_id
     if month < 10:
