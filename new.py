@@ -12,6 +12,21 @@ import csv
 import matplotlib.pyplot as plt
 
 
+#----------------------------------------------------------------FUNCTIONS
+def row_into_json(word):                            #function that take a list as an input and writes it in in json format in the output file
+    word1 = str(word).split("', '")                 #has to be edited in function of the number of paramenters of the list
+    string_list = []
+    string_list.append(word1[0].replace("['", ""))
+    string_list.append(word1[1].replace("']", ""))
+    output_data.write('{')
+    output_data.write('"id":')
+    output_data.write(string_list[0])
+    output_data.write(', "gas_used":')
+    output_data.write(string_list[1])
+    output_data.write('}')
+    output_data.write('\n')
+
+
 #----------------------------------------------------------------INPUT DATA DIRECTORY CREATION
 
 actual_path = os.getcwd()                                   #obtain actual directory
@@ -82,17 +97,16 @@ while aa < 10:
     input_file = open("input_data/input_file.tsv")              #the input file is opened
     input_file_list = csv.reader(input_file, delimiter="\t")    #the data from the file is opened as a list
 
-    #for row in input_file_list:        #the name of the columns is deleted
-    #    del row
-    #    break
+    for row in input_file_list:        #the name of the columns is deleted
+        del row
+        break
 
     for row in input_file_list:         #the columns not needed are deleted
         del row[1:7]
         del row[2:28]
         global_block_list.append(row[0])
         global_gas_list.append(row[1])
-        output_data.write(str(row))
-        output_data.write('\n')
+        row_into_json(row)              #the row is written as json in the output
 
     aa+=1                               #the iteration counter and the date of the next file are updated
     day+=1
