@@ -3,6 +3,7 @@
 
 #----------------------------------------------------------------IMPORTS
 
+from calendar import month_name
 import os
 import pandas as pd
 import requests as rq
@@ -13,31 +14,50 @@ import matplotlib.pyplot as plt
 
 
 #----------------------------------------------------------------FUNCTIONS
-def row_into_json(word):                            #function that take a list as an input and writes it in in json format in the output file
-    word1 = str(word).split("', '")                 #has to be edited in function of the number of paramenters of the list
+def list_into_json(word):                            #function that take a list as an input and writes it in in json format in the output file
+    word1 = str(word).split("', '")                  #has to be edited in function of the number of paramenters of the list
     string_list = []
     string_list.append(word1[0].replace("['", ""))
     string_list.append(word1[1].replace("']", ""))
-    output_data.write('{')
-    output_data.write('"id":')
-    output_data.write(string_list[0])
-    output_data.write(', "gas_used":')
-    output_data.write(string_list[1])
-    output_data.write('}')
-    output_data.write('\n')
+    block_output_data.write('{')
+    block_output_data.write('"id":')
+    block_output_data.write(string_list[0])
+    block_output_data.write(', "gas_used":')
+    block_output_data.write(string_list[1])
+    block_output_data.write('}')
+    block_output_data.write('\n')
+
+def day_media_into_json(da, mo, ye, my_list):   
+    day_output_data.write('{')
+    day_output_data.write('"day":"')
+    day_output_data.write(str(da)+"-"+str(mo)+"-"+str(ye)+'", "gas_media":')
+    day_output_data.write(str(list_media(my_list)))
+    day_output_data.write('}')
+    day_output_data.write('\n')
+    return list_media(my_list)
+
+def list_media(my_list):                            #function that returns the media of a set of numbers inside a list
+    total_sum = 0.0
+    aa = 0
+    while aa < len(my_list):
+        total_sum += float(my_list[aa])
+        aa += 1
+    media = total_sum/len(my_list)
+    return media
 
 
 #----------------------------------------------------------------INPUT DATA DIRECTORY CREATION
 
 actual_path = os.getcwd()                                   #obtain actual directory
 input_data_path = os.path.join(actual_path, 'input_data')  
-if os.path.exists == False:                                 #create folder 'input_data' inside actual directory if it doesn't exist yet
+if os.path.exists(input_data_path) == False:                                 #create folder 'input_data' inside actual directory if it doesn't exist yet
     os.mkdir(input_data_path)
 
 
 #----------------------------------------------------------------OUTPUT DATA FILE CREATION
 
-output_data = open("output_data.txt","w+")      #the output file is created and opened
+block_output_data = open("block_output_data.txt","w+")      #the output file is created and opened
+day_output_data = open("day_output_data.txt","w+")
 
 
 #----------------------------------------------------------------URL CREATION
@@ -51,11 +71,15 @@ ext = '.tsv.gz' #extension of the input file
 
 #----------------------------------------------------------------VARIABLE DECLARATION
 
-global_block_list = []  #list where the block data from input files is stored (FOR GRAPH)
-global_gas_list = []    #list where the gas data from input files is stored (FOR GRAPH)
+day_block_list = []  #list where the block data from input files is stored (FOR GRAPH)
+day_gas_list = []    #list where the gas data from input files is stored (FOR GRAPH)
+
+day_string_media_list = []
+day_media_gas_list = []
+
 
 aa = 0
-while aa < 10:
+while aa < 50:
 
 
     #------------------------------------------------------------DOWNLOAD INPUT FILE
@@ -74,7 +98,6 @@ while aa < 10:
 
     print()
     print("File date: "+str(day)+"-"+str(month)+"-"+str(year))
-    print()
 
     url = url1 + file_id + ext #the url of the input file
 
@@ -104,17 +127,26 @@ while aa < 10:
     for row in input_file_list:         #the columns not needed are deleted
         del row[1:7]
         del row[2:28]
-        global_block_list.append(row[0])
-        global_gas_list.append(row[1])
-        row_into_json(row)              #the row is written as json in the output
+        #day_block_list.append(row[0])
+        day_gas_list.append(row[1])
+        list_into_json(row)              #the row is written as json in the output
 
     aa+=1                               #the iteration counter and the date of the next file are updated
+
+
+    day_media = day_media_into_json(day, month, year, day_gas_list)     #the media of the gas used in this day is calculated
+    day_media_gas_list.append(day_media)                                #the media is added to the suitable list
+
+    date_string = str(day)+"-"+str(month)+"-"+str(year)
+    day_string_media_list.append(date_string)
+    day_gas_list = []
+
     day+=1
-    if month == (1 or 3 or 5 or 7 or 8 or 10 or 12):
+    if (month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10 or month == 12):
         if day > 31:
             day = 1
             month += 1
-    elif month == (2):
+    elif (month == 2):
         if day > 28:
             day = 1
             month += 1 
@@ -132,8 +164,11 @@ os.remove("input_data/input_file.tsv")   #the .tsv file is deleted
 
 #----------------------------------------------------------------CREATING THE GRAPH
 
-plt.plot(global_block_list,global_gas_list)
-plt.xlabel('block')
-plt.ylabel('gas used')
-plt.title('Gas used per Ethereum block')
-plt.savefig('blocks_gas_used.png')
+plt.plot(day_string_media_list,day_media_gas_list)
+plt.xlabel('day')
+plt.ylabel('gas media per day')
+plt.title('Gas media used per day')
+plt.savefig('day_media_gas_used.png')
+
+print()
+print("Data extraction finished!")
