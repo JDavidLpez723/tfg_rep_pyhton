@@ -12,40 +12,90 @@ import csv
 
 #----------------------------------------------------------------FUNCTIONS
 def list_into_json(word):                           #function that take a list as an input and writes it in in json format in the output file
-    
     word1 = str(word).split("', '")                 #has to be edited in function of the number of paramenters of the list
     string_list = []
     string_list.append(word1[0].replace("['", ""))
     string_list.append(word1[1])
-    string_list.append(word1[2].replace("']", ""))
+    string_list.append(word1[2])
+    string_list.append(word1[3])
+    string_list.append(word1[4])
+    string_list.append(word1[5])
+    string_list.append(word1[6])
+    string_list.append(word1[7])
+    string_list.append(word1[8])
+    string_list.append(word1[9])
+    string_list.append(word1[10])
+    string_list.append(word1[11])
+    string_list.append(word1[12])
+    string_list.append(word1[13])
+    string_list.append(word1[14])
+    string_list.append(word1[15])
+    string_list.append(word1[16])
+    string_list.append(word1[17])
+    string_list.append(word1[18])
+    string_list.append(word1[19].replace("']", ""))
     block_output_data.write('{')
     block_output_data.write('"id":')
     block_output_data.write(string_list[0])
-    block_output_data.write(', "size":')
+    block_output_data.write(', "time":"')
     block_output_data.write(string_list[1])
-    block_output_data.write(', "gas_used":')
+    block_output_data.write('", "size":')
     block_output_data.write(string_list[2])
+    block_output_data.write(', "difficulty":')
+    block_output_data.write(string_list[3])
+    block_output_data.write(', "gas_used":')
+    block_output_data.write(string_list[4])
+    block_output_data.write(', "gas_limit":')
+    block_output_data.write(string_list[5])
+    block_output_data.write(', "nonce":')
+    block_output_data.write(string_list[6])
+    block_output_data.write(', "total_difficulty":')
+    block_output_data.write(string_list[7])
+    block_output_data.write(', "transaction_count":')
+    block_output_data.write(string_list[8])
+    block_output_data.write(', "call_count":')
+    block_output_data.write(string_list[9])
+    block_output_data.write(', "value_total":')
+    block_output_data.write(string_list[10])
+    block_output_data.write(', "value_total_usd":')
+    block_output_data.write(string_list[11])
+    block_output_data.write(', "internal_value_total":')
+    block_output_data.write(string_list[12])
+    block_output_data.write(', "internal_value_total_usd":')
+    block_output_data.write(string_list[13])
+    block_output_data.write(', "generation":')
+    block_output_data.write(string_list[14])
+    block_output_data.write(', "generation_usd":')
+    block_output_data.write(string_list[15])
+    block_output_data.write(', "fee_total":')
+    block_output_data.write(string_list[16])
+    block_output_data.write(', "fee_total_usd":')
+    block_output_data.write(string_list[17])
+    block_output_data.write(', "reward":')
+    block_output_data.write(string_list[18])
+    block_output_data.write(', "reward_usd":')
+    block_output_data.write(string_list[19])
     block_output_data.write('}')
     block_output_data.write('\n')
 
-def day_media_into_json(da, mo, ye, gas_list, size_list):       #function that write the day date and the day media value into the output file
-    day_output_data.write('{')
-    day_output_data.write('"day":"')
-    day_output_data.write(str(da)+"-"+str(mo)+"-"+str(ye)+'", "gas_media":')
-    day_output_data.write(str(list_media(gas_list)))
-    day_output_data.write(', "size_media":')
-    day_output_data.write(str(list_media(size_list)))
-    day_output_data.write('}')
-    day_output_data.write('\n')
+#def day_media_into_json(da, mo, ye, gas_list, size_list):       #function that write the day date and the day media value into the output file
+#    day_output_data.write('{')
+#    day_output_data.write('"day":"')
+#    day_output_data.write(str(da)+"-"+str(mo)+"-"+str(ye)+'", "gas_media":')
+#    day_output_data.write(str(list_media(gas_list)))
+#    day_output_data.write(', "size_media":')
+#    day_output_data.write(str(list_media(size_list)))
+#    day_output_data.write('}')
+#    day_output_data.write('\n')
 
-def list_media(my_list):                            #function that returns the media of a set of numbers inside a list
-    total_sum = 0.0
-    aa = 0
-    while aa < len(my_list):
-        total_sum += float(my_list[aa])
-        aa += 1
-    media = total_sum/len(my_list)
-    return media
+#def list_media(my_list):                            #function that returns the media of a set of numbers inside a list
+#    total_sum = 0.0
+#    aa = 0
+#    while aa < len(my_list):
+#        total_sum += float(my_list[aa])
+#        aa += 1
+#    media = total_sum/len(my_list)
+#    return media
 
 
 #----------------------------------------------------------------INPUT DATA DIRECTORY CREATION
@@ -62,26 +112,26 @@ output_data_path = os.path.join(actual_path, 'output_data')
 if os.path.exists(output_data_path) == False:                       #create folder 'output_data' inside actual directory if it doesn't exist yet
     os.mkdir(output_data_path)
 
-block_output_data = open("output_data/block_output_data.txt","w+")  #the output files are created and opened
-day_output_data = open("output_data/day_output_data.txt","w+")
+block_output_data = open("output_data/block_output_data.txt","a")  #the output files are created and opened
+#day_output_data = open("output_data/day_output_data.txt","w+")
 
 
 #----------------------------------------------------------------URL CREATION
 
 year = 2015     #year of the input file
-month = 7       #month of the input file
-day = 30        #day of the input file
+month = 11       #month of the input file
+day = 8        #day of the input file
 url1 = 'https://gz.blockchair.com/ethereum/blocks/blockchair_ethereum_blocks_'   #the first part of the input file url
 ext = '.tsv.gz' #extension of the input file
 
 
 #----------------------------------------------------------------VARIABLE DECLARATION
 
-day_gas_list = []    #list where the gas data from input files is stored
-day_size_list = []    #list where the gas data from input files is stored
+#day_gas_list = []    #list where the gas data from input files is stored
+#day_size_list = []    #list where the gas data from input files is stored
 
 aa = 0
-while aa < 3:
+while aa < 1000:
 
 
     #------------------------------------------------------------DOWNLOAD INPUT FILE
@@ -127,29 +177,42 @@ while aa < 3:
         break
 
     for row in input_file_list:                                 #the columns not needed are deleted
-        #del row[1:7]
-        del row[1:3]
-        del row[2:5]
-        #del row[2:28]
-        del row[3:29]
-        day_size_list.append(row[1])
-        day_gas_list.append(row[2])
+        del row[1]
+        del row[3:5]
+        del row[6:8]
+        del row[7:10]
+        del row[8:10]
+        del row [9]
+        del row [10]
+        del row [16:18]
+        #day_size_list.append(row[1])
+        #day_gas_list.append(row[2])
         list_into_json(row)                                     #the row is written as json in the output
 
-    day_media_into_json(day, month, year, day_gas_list, day_size_list)         #the media of the gas used in this day is calculated and written in the output file
-    day_gas_list = []                                           #the list of the gas of the day is emptied
-    day_size_list = []
+    #day_media_into_json(day, month, year, day_gas_list, day_size_list)         #the media of the gas used in this day is calculated and written in the output file
+    #day_gas_list = []                                           #the list of the gas of the day is emptied
+    #day_size_list = []
 
     aa+=1                                                       #the iteration counter and the date of the next file are updated
     day+=1
     if (month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10 or month == 12):
         if day > 31:
             day = 1
-            month += 1
+            if month == 12:
+                year += 1
+                month = 1
+            else:
+                month += 1
+
     elif (month == 2):
-        if day > 28:
-            day = 1
-            month += 1 
+        if (year == 2016 or year == 2020):
+            if day > 29:
+                day = 1
+                month += 1
+        else:
+            if day > 28:
+                day = 1
+                month += 1 
     else:
         if day > 30:
             day = 1
@@ -162,4 +225,4 @@ while aa < 3:
 #----------------------------------------------------------------CLOSING OUTPUT FILES
 
 block_output_data.close()
-day_output_data.close()
+#day_output_data.close()
