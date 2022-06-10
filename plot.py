@@ -20,6 +20,8 @@ def plot_gas_blocks():
         blocks_list.append(json_object["id"])
         blocks_gas_list.append(json_object["gas_used"])
     plt.plot(blocks_list,blocks_gas_list)
+    #ax = plt.gca()
+    #ax.set_ylim([0, 30000000])
     plt.xlabel('block')
     plt.ylabel('gas used')
     plt.title('Gas used per block')
@@ -58,4 +60,4 @@ if os.path.exists(plot_path) == False:                                 #create f
 
 plot_gas_blocks()
 
-plot_gas_days()
+#plot_gas_days()
