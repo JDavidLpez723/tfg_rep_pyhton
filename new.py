@@ -11,7 +11,14 @@ import csv
 
 
 #----------------------------------------------------------------FUNCTIONS
-def list_into_json(word):                           #function that take a list as an input and writes it in in json format in the output file
+def list_into_json(word, output_id):                           #function that take a list as an input and writes it in in json format in the output file
+    block_output_data = open("output_data/block_output_data"+str(output_id)+".txt","a")  #the output files are created and opened
+    stats = os.stat("output_data/block_output_data"+str(output_id)+".txt")
+    #print(stats.st_size)
+    if stats.st_size > 1000000000:
+        block_output_data.close()
+        output_id += 1
+        block_output_data = open("output_data/block_output_data"+str(output_id)+".txt","a")
     word1 = str(word).split("', '")                 #has to be edited in function of the number of paramenters of the list
     string_list = []
     string_list.append(word1[0].replace("['", ""))
@@ -77,6 +84,8 @@ def list_into_json(word):                           #function that take a list a
     block_output_data.write(string_list[19])
     block_output_data.write('}')
     block_output_data.write('\n')
+    block_output_data.close()
+    return output_id
 
 #def day_media_into_json(da, mo, ye, gas_list, size_list):       #function that write the day date and the day media value into the output file
 #    day_output_data.write('{')
@@ -112,23 +121,19 @@ output_data_path = os.path.join(actual_path, 'output_data')
 if os.path.exists(output_data_path) == False:                       #create folder 'output_data' inside actual directory if it doesn't exist yet
     os.mkdir(output_data_path)
 
-block_output_data = open("output_data/block_output_data.txt","a")  #the output files are created and opened
-#day_output_data = open("output_data/day_output_data.txt","w+")
+output_id=0
 
 
 #----------------------------------------------------------------URL CREATION
 
 year = 2015     #year of the input file
-month = 11       #month of the input file
-day = 8        #day of the input file
+month = 7       #month of the input file
+day = 30        #day of the input file
 url1 = 'https://gz.blockchair.com/ethereum/blocks/blockchair_ethereum_blocks_'   #the first part of the input file url
 ext = '.tsv.gz' #extension of the input file
 
 
 #----------------------------------------------------------------VARIABLE DECLARATION
-
-#day_gas_list = []    #list where the gas data from input files is stored
-#day_size_list = []    #list where the gas data from input files is stored
 
 aa = 0
 while aa < 1000:
@@ -185,13 +190,8 @@ while aa < 1000:
         del row [9]
         del row [10]
         del row [16:18]
-        #day_size_list.append(row[1])
-        #day_gas_list.append(row[2])
-        list_into_json(row)                                     #the row is written as json in the output
-
-    #day_media_into_json(day, month, year, day_gas_list, day_size_list)         #the media of the gas used in this day is calculated and written in the output file
-    #day_gas_list = []                                           #the list of the gas of the day is emptied
-    #day_size_list = []
+        new_output_id = list_into_json(row, output_id)                                     #the row is written as json in the output
+        output_id = new_output_id
 
     aa+=1                                                       #the iteration counter and the date of the next file are updated
     day+=1
@@ -220,9 +220,3 @@ while aa < 1000:
     
     input_file.close()                                          #the .tsv file is closed and deleted
     os.remove("input_data/input_file.tsv")                     
-
-
-#----------------------------------------------------------------CLOSING OUTPUT FILES
-
-block_output_data.close()
-#day_output_data.close()

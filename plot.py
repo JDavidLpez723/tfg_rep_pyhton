@@ -11,14 +11,25 @@ import matplotlib.pyplot as plt
 #----------------------------------------------------------------FUNCTIONS
 
 def plot_gas_blocks():
-    blocks_file = open("output_data/block_output_data.txt", 'r')  
-    lines = blocks_file.readlines()
     blocks_list = []
     blocks_gas_list = []
-    for line in lines:      
-        json_object = json.loads(line)
-        blocks_list.append(json_object["id"])
-        blocks_gas_list.append(json_object["gas_used"])
+    aa=0
+    while aa < 2:
+        blocks_file = open("output_data/block_output_data"+str(aa)+".txt", 'r')  
+        lines = blocks_file.readlines()
+        bb=3740745
+        for line in lines:
+            #print(bb)
+            json_object = json.loads(line)
+            blocks_list.append(json_object["id"])
+            blocks_gas_list.append(json_object["gas_used"])
+            if bb != json_object["id"]:
+                print(bb)
+                break
+            bb+=1
+        blocks_file.close()
+        aa += 1
+        
     plt.plot(blocks_list,blocks_gas_list)
     #ax = plt.gca()
     #ax.set_ylim([0, 30000000])
@@ -29,7 +40,6 @@ def plot_gas_blocks():
     del lines
     del blocks_list
     del blocks_gas_list
-    blocks_file.close()
 
 def plot_gas_days():
     days_file = open("output_data/day_output_data.txt", 'r')      
