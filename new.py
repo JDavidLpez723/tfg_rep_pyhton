@@ -121,14 +121,14 @@ output_data_path = os.path.join(actual_path, 'output_data')
 if os.path.exists(output_data_path) == False:                       #create folder 'output_data' inside actual directory if it doesn't exist yet
     os.mkdir(output_data_path)
 
-output_id=0
+output_id=8
 
 
 #----------------------------------------------------------------URL CREATION
 
-year = 2015     #year of the input file
+year = 2022     #year of the input file
 month = 7       #month of the input file
-day = 30        #day of the input file
+day = 4        #day of the input file
 url1 = 'https://gz.blockchair.com/ethereum/blocks/blockchair_ethereum_blocks_'   #the first part of the input file url
 ext = '.tsv.gz' #extension of the input file
 
@@ -136,7 +136,7 @@ ext = '.tsv.gz' #extension of the input file
 #----------------------------------------------------------------VARIABLE DECLARATION
 
 aa = 0
-while aa < 1000:
+while aa < 7:
 
 
     #------------------------------------------------------------DOWNLOAD INPUT FILE
