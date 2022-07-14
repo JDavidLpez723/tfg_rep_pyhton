@@ -584,18 +584,11 @@ if os.path.exists(plot_path) == False:                                 #create f
 
 #plot_tran_blocks()
 
-
-
-
-
-
 #plot_value_total_blocks()
 
 #plot_val_total_usd_blocks()
 
 #plot_internal_value_total_blocks()
-
-
 
 #plot_call_count_blocks()
 
@@ -613,10 +606,7 @@ if os.path.exists(plot_path) == False:                                 #create f
 
 #plot_reward_usd_blocks()
 
-
-plot_nonce_blocks()
-
-
+#plot_nonce_blocks()
 
 #plot_size_blocks()
 

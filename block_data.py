@@ -19,7 +19,7 @@ def list_into_json(word, output_id):                           #function that ta
         block_output_data.close()
         output_id += 1
         block_output_data = open("output_data/block_output_data"+str(output_id)+".txt","a")
-    word1 = str(word).split("', '")                 #has to be edited in function of the number of paramenters of the list
+    word1 = str(word).split("', '")           
     string_list = []
     string_list.append(word1[0].replace("['", ""))
     string_list.append(word1[1])
@@ -190,7 +190,7 @@ while aa < 7:
         del row [9]
         del row [10]
         del row [16:18]
-        new_output_id = list_into_json(row, output_id)                                     #the row is written as json in the output
+        new_output_id = list_into_json(row, output_id)           #the row is written as json in the output
         output_id = new_output_id
 
     aa+=1                                                       #the iteration counter and the date of the next file are updated
