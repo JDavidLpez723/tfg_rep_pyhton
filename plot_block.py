@@ -4,7 +4,6 @@
 #----------------------------------------------------------------IMPORTS
 
 import os
-import csv
 import json
 import matplotlib.pyplot as plt
 
@@ -35,7 +34,7 @@ def plot_gas_blocks():      #function for plotting the gas per block
     plt.xlabel('block')
     plt.ylabel('gas used')
     plt.title('Gas used per block')
-    plt.savefig('plots/blocks_gas_used.png')
+    plt.savefig('plots_blocks/blocks_gas_used.png')
     del lines
     del blocks_list
     del blocks_gas_list
@@ -65,12 +64,12 @@ def plot_tran_blocks(): #function for plotting the transaction count per block
     plt.xlabel('block')
     plt.ylabel('transaction count')
     plt.title('Transaction count per block')
-    plt.savefig('plots/blocks_tran_count.png')
+    plt.savefig('plots_blocks/blocks_tran_count.png')
     del lines
     del blocks_list
     del blocks_tran_list
 
-def plot_val_total_usd_blocks(): #function for plotting the value total usd per block
+def plot_value_total_usd_blocks(): #function for plotting the value total usd per block
     blocks_list = []
     blocks_val_total_usd_list = []
     aa=0
@@ -95,7 +94,7 @@ def plot_val_total_usd_blocks(): #function for plotting the value total usd per 
     plt.xlabel('block')
     plt.ylabel('value total in usd')
     plt.title('Value total in USD per block')
-    plt.savefig('plots/blocks_val_total_usd.png')
+    plt.savefig('plots_blocks/blocks_value_total_usd.png')
     del lines
     del blocks_list
     del blocks_val_total_usd_list
@@ -125,7 +124,7 @@ def plot_size_blocks(): #function for plotting the size per block
     plt.xlabel('block')
     plt.ylabel('size')
     plt.title('Size per block')
-    plt.savefig('plots/blocks_size.png')
+    plt.savefig('plots_blocks/blocks_size.png')
     del lines
     del blocks_list
     del blocks_size_list
@@ -155,7 +154,7 @@ def plot_difficulty_blocks(): #function for plotting the difficulty per block
     plt.xlabel('block')
     plt.ylabel('difficulty')
     plt.title('Difficulty per block')
-    plt.savefig('plots/blocks_difficulty.png')
+    plt.savefig('plots_blocks/blocks_difficulty.png')
     del lines
     del blocks_list
     del blocks_difficulty_list
@@ -185,7 +184,7 @@ def plot_gas_limit_blocks(): #function for plotting the gas limit per block
     plt.xlabel('block')
     plt.ylabel('gas_limit')
     plt.title('Gas limit per block')
-    plt.savefig('plots/blocks_gas_limit.png')
+    plt.savefig('plots_blocks/blocks_gas_limit.png')
     del lines
     del blocks_list
     del blocks_gas_limit_list
@@ -215,7 +214,7 @@ def plot_total_difficulty_blocks(): #function for plotting the total difficulty 
     plt.xlabel('block')
     plt.ylabel('total_difficulty')
     plt.title('Total difficulty per block')
-    plt.savefig('plots/blocks_total_difficulty.png')
+    plt.savefig('plots_blocks/blocks_total_difficulty.png')
     del lines
     del blocks_list
     del blocks_total_difficulty_list
@@ -245,7 +244,7 @@ def plot_call_count_blocks(): #function for plotting the call count per block
     plt.xlabel('block')
     plt.ylabel('call_count')
     plt.title('Call count per block')
-    plt.savefig('plots/blocks_call_count.png')
+    plt.savefig('plots_blocks/blocks_call_count.png')
     del lines
     del blocks_list
     del blocks_call_count_list
@@ -254,9 +253,11 @@ def plot_value_total_blocks(): #function for plotting the value total per block
     blocks_list = []
     blocks_value_total_list = []
     aa=0
-    bb=0
+    bb=1
+    #bb=0
     while aa < 9:
-        blocks_file = open("output_data/block_output_data"+str(aa)+".txt", 'r')  
+        blocks_file = open("output_data_sin_bloque_0/block_output_data"+str(aa)+".txt", 'r')
+        #blocks_file = open("output_data/block_output_data"+str(aa)+".txt", 'r')  
         lines = blocks_file.readlines()
         for line in lines:
             json_object = json.loads(line)
@@ -275,7 +276,8 @@ def plot_value_total_blocks(): #function for plotting the value total per block
     plt.xlabel('block')
     plt.ylabel('value_total')
     plt.title('Value_total per block')
-    plt.savefig('plots/blocks_value_total.png')
+    plt.savefig('plots_blocks_sin_bloque_0/blocks_value_total.png')
+    #plt.savefig('plots_blocks/blocks_value_total.png')
     del lines
     del blocks_list
     del blocks_value_total_list
@@ -284,9 +286,11 @@ def plot_internal_value_total_blocks(): #function for plotting the internal valu
     blocks_list = []
     blocks_internal_value_total_list = []
     aa=0
-    bb=0
+    #bb=0
+    bb=1
     while aa < 9:
-        blocks_file = open("output_data/block_output_data"+str(aa)+".txt", 'r')  
+        blocks_file = open("output_data_sin_bloque_0/block_output_data"+str(aa)+".txt", 'r') 
+        #blocks_file = open("output_data/block_output_data"+str(aa)+".txt", 'r')  
         lines = blocks_file.readlines()
         for line in lines:
             json_object = json.loads(line)
@@ -305,7 +309,8 @@ def plot_internal_value_total_blocks(): #function for plotting the internal valu
     plt.xlabel('block')
     plt.ylabel('internal_value_total')
     plt.title('Internal value total per block')
-    plt.savefig('plots/blocks_internal_value_total.png')
+    plt.savefig('plots_blocks_sin_bloque_0/blocks_internal_value_total.png')
+    #plt.savefig('plots_blocks/blocks_internal_value_total.png')
     del lines
     del blocks_list
     del blocks_internal_value_total_list
@@ -335,7 +340,7 @@ def plot_internal_value_total_usd_blocks(): #function for plotting the internal 
     plt.xlabel('block')
     plt.ylabel('internal_value_total_usd')
     plt.title('Internal value total in USD per block')
-    plt.savefig('plots/blocks_internal_value_total_usd.png')
+    plt.savefig('plots_blocks/blocks_internal_value_total_usd.png')
     del lines
     del blocks_list
     del blocks_internal_value_total_usd_list
@@ -345,7 +350,9 @@ def plot_generation_blocks(): #function for plotting the generation per block
     blocks_generation_list = []
     aa=0
     bb=0
+    #bb=1
     while aa < 9:
+        #blocks_file = open("output_data_sin_bloque_0/block_output_data"+str(aa)+".txt", 'r')         
         blocks_file = open("output_data/block_output_data"+str(aa)+".txt", 'r')  
         lines = blocks_file.readlines()
         for line in lines:
@@ -365,7 +372,8 @@ def plot_generation_blocks(): #function for plotting the generation per block
     plt.xlabel('block')
     plt.ylabel('generation')
     plt.title('Generation per block')
-    plt.savefig('plots/blocks_generation.png')
+    #plt.savefig('plots_blocks_sin_bloque_0/blocks_generation.png')
+    plt.savefig('plots_blocks/blocks_generation.png')
     del lines
     del blocks_list
     del blocks_generation_list
@@ -374,9 +382,11 @@ def plot_generation_usd_blocks(): #function for plotting the generation in USD p
     blocks_list = []
     blocks_generation_usd_list = []
     aa=0
-    bb=0
+    #bb=0
+    bb=1
     while aa < 9:
-        blocks_file = open("output_data/block_output_data"+str(aa)+".txt", 'r')  
+        blocks_file = open("output_data_sin_bloque_0/block_output_data"+str(aa)+".txt", 'r')
+        #blocks_file = open("output_data/block_output_data"+str(aa)+".txt", 'r')  
         lines = blocks_file.readlines()
         for line in lines:
             json_object = json.loads(line)
@@ -395,7 +405,8 @@ def plot_generation_usd_blocks(): #function for plotting the generation in USD p
     plt.xlabel('block')
     plt.ylabel('generation_usd')
     plt.title('Generation in USD per block')
-    plt.savefig('plots/blocks_generation_usd.png')
+    plt.savefig('plots_blocks_sin_bloque_0/blocks_generation_usd.png')
+    #plt.savefig('plots_blocks/blocks_generation_usd.png')
     del lines
     del blocks_list
     del blocks_generation_usd_list
@@ -425,7 +436,7 @@ def plot_fee_total_blocks(): #function for plotting the fee_total per block
     plt.xlabel('block')
     plt.ylabel('fee_total')
     plt.title('Fee total per block')
-    plt.savefig('plots/blocks_fee_total.png')
+    plt.savefig('plots_blocks/blocks_fee_total.png')
     del lines
     del blocks_list
     del blocks_fee_total_list
@@ -455,7 +466,7 @@ def plot_fee_total_usd_blocks(): #function for plotting the fee total in USD per
     plt.xlabel('block')
     plt.ylabel('fee_total_usd')
     plt.title('Fee total in USD per block')
-    plt.savefig('plots/blocks_fee_total_usd.png')
+    plt.savefig('plots_blocks/blocks_fee_total_usd.png')
     del lines
     del blocks_list
     del blocks_fee_total_usd_list
@@ -485,7 +496,7 @@ def plot_reward_blocks(): #function for plotting the reward per block
     plt.xlabel('block')
     plt.ylabel('reward')
     plt.title('Reward per block')
-    plt.savefig('plots/blocks_reward.png')
+    plt.savefig('plots_blocks/blocks_reward.png')
     del lines
     del blocks_list
     del blocks_reward_list
@@ -515,7 +526,7 @@ def plot_reward_usd_blocks(): #function for plotting the reward in USD per block
     plt.xlabel('block')
     plt.ylabel('reward_usd')
     plt.title('Reward in USD per block')
-    plt.savefig('plots/blocks_reward_usd.png')
+    plt.savefig('plots_blocks/blocks_reward_usd.png')
     del lines
     del blocks_list
     del blocks_reward_usd_list
@@ -545,37 +556,73 @@ def plot_nonce_blocks(): #function for plotting the nonce per block
     plt.xlabel('block')
     plt.ylabel('nonce')
     plt.title('Nonce per block')
-    plt.savefig('plots/blocks_nonce.png')
+    plt.savefig('plots_blocks/blocks_nonce.png')
     del lines
     del blocks_list
     del blocks_nonce_list
 
+def calculate_blocks_0_gas():
+    global_counter = 0
+    gas0_counter = 0
+    gas0_tran0_counter = 0
+    last_block_0gas = 0
+    last_date_0gas = "a"
+    last_block = "e"
+    aa=0
+    while aa < 9:
+        blocks_file = open("output_data/block_output_data"+str(aa)+".txt", 'r')
+        lines = blocks_file.readlines()
+        for line in lines:
+            json_object = json.loads(line)
+            global_counter += 1
+            if json_object["gas_used"] == 0:
+                gas0_counter += 1
+                last_block_0gas = json_object["id"]
+                last_date_0gas = json_object["time"]
+                last_block = line
+                if json_object["transaction_count"] == 0:
+                    gas0_tran0_counter += 1
+        blocks_file.close()
+        aa += 1
 
-#def plot_gas_days():
-#    days_file = open("output_data/day_output_data.txt", 'r')      
-#    lines = days_file.readlines()
-#    days_list = []
-#   days_gas_list = []
-#    for line in lines:      
-#        json_object = json.loads(line)
-#        days_list.append(json_object["day"])
-#        days_gas_list.append(json_object["gas_media"])
-#    plt.plot(days_list,days_gas_list)
-#    plt.xlabel('day')
-#    plt.ylabel('gas media per day')
-#    plt.title('Gas media used per day')
-#    plt.savefig('plots/day_media_gas_used.png')
-#    del lines
-#    del days_list
-#    del days_gas_list
-#    days_file.close()
+    print("Number of blocks: "+str(global_counter))
+    print("Number of blocks with 0 gas used: "+str(gas0_counter))
+    print("Number of blocks with 0 gas used and 0 transactions verified: "+str(gas0_tran0_counter))
+    percentage =  round(((gas0_counter * 100) / global_counter), 2)
+    print("The "+str(percentage)+ "% of the blocks, used 0 gas")
+    print("The last block used 0 gas was "+str(last_block_0gas)+" on "+last_date_0gas)
+
+def internal_total_diff():  #function that check in how many blocks the internal_value_total is bigger than the value_total
+    global_count = 0
+    int_bigger_count = 0
+    aa = 0
+    while aa < 9:
+        blocks_file = open("output_data/block_output_data"+str(aa)+".txt", 'r')
+        lines = blocks_file.readlines()
+        for line in lines:
+            json_object = json.loads(line)
+            global_count += 1
+            if json_object["internal_value_total"] > json_object["value_total"]:
+                int_bigger_count += 1
+        blocks_file.close()
+        aa += 1
+    print("Number of blocks: "+str(global_count))
+    print("Number of blocks with internal_value_total bigger: "+str(int_bigger_count))
+    percentage =  round(((int_bigger_count * 100) / global_count), 2)
+    print("In "+str(percentage)+ "% of the blocks, internal_value_total is bigger than value_total")
+
 
 
 #----------------------------------------------------------------PLOTS DIRECTORY CREATION
 
 actual_path = os.getcwd()
-plot_path = os.path.join(actual_path, 'plots')
-if os.path.exists(plot_path) == False:                                 #create folder 'plots' inside actual directory if it doesn't exist yet
+plot_path = os.path.join(actual_path, 'plots_blocks')
+if os.path.exists(plot_path) == False:                                 #create folder 'plots_blocks' inside actual directory if it doesn't exist yet
+    os.mkdir(plot_path)
+
+actual_path = os.getcwd()
+plot_path = os.path.join(actual_path, 'plots_blocks_sin_bloque_0')
+if os.path.exists(plot_path) == False:                                 #create folder 'plots_blocks_sin_bloque_0' inside actual directory if it doesn't exist yet
     os.mkdir(plot_path)
 
 #plot_gas_blocks()
@@ -586,7 +633,7 @@ if os.path.exists(plot_path) == False:                                 #create f
 
 #plot_value_total_blocks()
 
-#plot_val_total_usd_blocks()
+plot_value_total_usd_blocks()
 
 #plot_internal_value_total_blocks()
 
@@ -614,4 +661,7 @@ if os.path.exists(plot_path) == False:                                 #create f
 
 #plot_total_difficulty_blocks()
 
+#calculate_blocks_0_gas()
+
+#internal_total_diff()
 
